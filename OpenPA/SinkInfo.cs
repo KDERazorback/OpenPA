@@ -162,5 +162,15 @@ namespace OpenPA
             // Return the created SinkInfo object
             return info;
         }
+        
+        public override string ToString()
+        {
+            return string.Format("Sink@{0} {1}::{2}{3}",
+                Index,
+                Driver,
+                String.IsNullOrEmpty(Name) ? "Untitled" : Name,
+                String.IsNullOrEmpty(Description) ? "" : (" - " + Description)
+            );
+        }
     }
 }

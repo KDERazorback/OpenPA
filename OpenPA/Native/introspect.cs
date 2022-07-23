@@ -261,6 +261,86 @@ namespace OpenPA.Native
         public pa_format_info** formats;
 
     }
+    
+    internal unsafe struct pa_source_output_info
+    {
+        // Index of the source output
+        public uint index;
+        // Name of source output
+        public IntPtr name;
+        // Index of the module this source output belongs to, or PA_INVALID_INDEX when it does not belong to any module.
+        public uint owner_module;
+        // Index of the client this source output belongs to, or PA_INVALID_INDEX when it does not belong to any client.
+        public uint client;
+        // Index of the connected source.
+        public uint source;
+        //Sample spec of this source
+        public pa_sample_spec sample_spec;
+        // Channel map
+        public pa_channel_map channel_map;
+        // Latency due to buffering in the source output
+        public pa_usec_t buffer_usec;
+        // Latency of the source device
+        public pa_usec_t source_usec;
+        // The resampling method used by this source output.
+        public IntPtr resample_method;
+        // Drive name
+        public IntPtr driver;
+        // Property list
+        public pa_proplist* proplist;
+        // Stream corked
+        public int corked;
+        // The volume of this source output.
+        public pa_cvolume volume;
+        // Mute switch of the sink
+        public int mute;
+        // Stream has volume
+        public int has_volume;
+        // The volume can be set.
+        public int volume_writable;
+        // Stream format information.
+        public pa_format_info* format;
+    }
+    
+    internal unsafe struct pa_sink_input_info
+    {
+        // Index of the sink input
+        public uint index;
+        // Name of sink input
+        public IntPtr name;
+        // Index of the module this sink input belongs to, or PA_INVALID_INDEX when it does not belong to any module.
+        public uint owner_module;
+        // Index of the client this sink input belongs to, or PA_INVALID_INDEX when it does not belong to any client.
+        public uint client;
+        // Index of the connected sink.
+        public uint sink;
+        //Sample spec of this sink
+        public pa_sample_spec sample_spec;
+        // Channel map
+        public pa_channel_map channel_map;
+        // The volume of this sink input.
+        public pa_cvolume volume;
+        // Latency due to buffering in the sink input
+        public pa_usec_t buffer_usec;
+        // Latency of the sink device
+        public pa_usec_t sink_usec;
+        // The resampling method used by this sink input.
+        public IntPtr resample_method;
+        // Drive name
+        public IntPtr driver;
+        // Mute switch of the sink
+        public int mute;
+        // Property list
+        public pa_proplist* proplist;
+        // Stream corked
+        public int corked;
+        // Stream has volume
+        public int has_volume;
+        // The volume can be set.
+        public int volume_writable;
+        // Stream format information.
+        public pa_format_info* format;
+    }
 
     // delegate* unmanaged<pa_context*, pa_sink_info*, int, void*, void>
 
@@ -371,6 +451,40 @@ namespace OpenPA.Native
             delegate* unmanaged[Cdecl]<pa_context*, int, void*, void>,
             void*,
             pa_operation*> pa_context_set_source_port_by_name;
+        
+        // Get information about a source output by its index.
+        [NativeMethod]
+        public static delegate* unmanaged[Cdecl]<
+            pa_context*,
+            uint,
+            delegate* unmanaged[Cdecl]<pa_context*, pa_source_output_info*, int, void*, void>,            
+            void*,
+            pa_operation*> pa_context_get_source_output_info;
+        
+        // Get the complete list of source outputs.
+        [NativeMethod]
+        public static delegate* unmanaged[Cdecl]<
+            pa_context*,
+            delegate* unmanaged[Cdecl]<pa_context*, pa_source_output_info*, int, void*, void>,
+            void*,
+            pa_operation*> pa_context_get_source_output_info_list;
+        
+        // Get information about a sink input by its index.
+        [NativeMethod]
+        public static delegate* unmanaged[Cdecl]<
+            pa_context*,
+            uint,
+            delegate* unmanaged[Cdecl]<pa_context*, pa_sink_input_info*, int, void*, void>,            
+            void*,
+            pa_operation*> pa_context_get_sink_input_info;
+        
+        // Get the complete list of sink inputs.
+        [NativeMethod]
+        public static delegate* unmanaged[Cdecl]<
+            pa_context*,
+            delegate* unmanaged[Cdecl]<pa_context*, pa_sink_input_info*, int, void*, void>,
+            void*,
+            pa_operation*> pa_context_get_sink_input_info_list;
 
     }
 

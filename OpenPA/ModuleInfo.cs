@@ -39,5 +39,13 @@ namespace OpenPA
 
             return moduleInfo;
         }
+        
+        public override string ToString()
+        {
+            return string.Format("Module@{0} {1}",
+                Index,
+                Name
+            );
+        }
     }
 }

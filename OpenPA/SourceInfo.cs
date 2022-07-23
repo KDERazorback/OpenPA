@@ -164,10 +164,20 @@ namespace OpenPA
                 Card = source_Info.card,    
                 Formats = formats,
                 Ports = ports,
-                ActivePort = SourcePortInfo.Convert(*source_Info.active_port),
+                ActivePort = (IntPtr)(source_Info.active_port) != IntPtr.Zero ? SourcePortInfo.Convert(*source_Info.active_port) : null,
             };
 
             return sourceInfo;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Source@{0} {1}::{2}{3}",
+                Index,
+                Driver,
+                String.IsNullOrEmpty(Name) ? "Untitled" : Name,
+                String.IsNullOrEmpty(Description) ? "" : (" - " + Description)
+            );
         }
     }
 }
